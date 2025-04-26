@@ -68,7 +68,7 @@ const RatingChartImagePage = ({ data }: { data: {
             ctx.font = `20px ${inter.style.fontFamily}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(data.playerName.split('').join(' '), 220, 48);
+            ctx.fillText(data.playerName, 220, 48);
 
             const ratingImg = new Image();
             ratingImg.src = 'https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png';

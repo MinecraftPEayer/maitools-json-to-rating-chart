@@ -177,14 +177,14 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                             setChartComponent(
                                 <div className='flex'>
                                     <div className={`p-4 w-[1088px] h-[1674px] bg-[url('../../public/background.png')] bg-center bg-cover ${inter.className}`}>
-                                        <div className='bg-white w-fit h-fit p-2 flex rounded-xl'>
-                                            <Image src="https://maimaidx-eng.com/maimai-mobile/img/Icon/921b3c1233700b70.png" alt="avatar" width={96} height={96}/>
+                                        <div className='bg-white w-[296px] h-fit p-2 flex rounded-xl'>
+                                            <Image src={`https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`} alt="avatar" width={96} height={96}/>
                                             <div className="ml-2">
-                                                <p className='text-black tracking-[10px] h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>MCPEayer</p>
+                                                <p className='text-black h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>{playerName}</p>
                                                 <div className='w-fit h-fit relative'>
                                                     <Image src="https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png" alt="rating" width={296} height={86} className='h-12 w-auto' />
                                                     <div className='absolute right-2 top-0 flex'>
-                                                        {`${11437}`.split('').map((char) => {
+                                                        {`${B15Data.map(item => item.rating).reduce((a, b) => a + b, 0) + B35Data.map(item => item.rating).reduce((a, b) => a + b, 0)}`.split('').map((char) => {
                                                             ratingNumberIndex++
                                                             return <p key={`ratingNum${ratingNumberIndex}`} className='text-2xl w-[17.5px] leading-12 text-center'>{char}</p>
                                                         })}

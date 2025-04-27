@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 
 import background from '../../../public/background.png'
-import { RatingData } from "./RatingChart";
+import { getRatingBaseImage, RatingData } from "./RatingChart";
 import { Inter } from 'next/font/google'
 
 import diffExp from '../../../public/diff_exp.png'
@@ -54,7 +54,7 @@ const RatingChartImagePage = ({ data }: { data: {
             ctx.fill();
 
             const avatarImg = new Image()
-            avatarImg.src = `https://maimaidx-eng.com/maimai-mobile/img/Icon/${data.avatar}.png`
+            avatarImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${data.avatar}.png`
 
             avatarImg.onload = () => {
                 ctx.drawImage(avatarImg, 24, 24, 96, 96);
@@ -71,24 +71,25 @@ const RatingChartImagePage = ({ data }: { data: {
             ctx.textBaseline = 'middle';
             ctx.fillText(data.playerName, 220, 48);
 
+            const rating = (data.B15.map(item => item.rating).reduce((a, b) => a + b, 0) + data.B35.map(item => item.rating).reduce((a, b) => a + b, 0))
+
             const ratingImg = new Image();
-            ratingImg.src = 'https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png';
+            ratingImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_${getRatingBaseImage(rating)}.png`;
             
             ratingImg.onload = () => {
                 ctx.drawImage(ratingImg, 0, 0, 296, 86, 128, 24+48+4, 165, 48);
                 
-                const rating = (data.B15.map(item => item.rating).reduce((a, b) => a + b, 0) + data.B35.map(item => item.rating).reduce((a, b) => a + b, 0)).toString();
-                const parsedRating = (`${' '.repeat('00000'.length - rating.length)}${rating}`).split('');
+                const parsedRating = (`${' '.repeat('00000'.length - rating.toString().length)}${rating}`).split('');
 
                 ctx.fillStyle = 'white';
-                ctx.font = `26px ${inter.style.fontFamily}`;
-                ctx.textAlign = 'right';
+                ctx.font = `24px ${inter.style.fontFamily}`;
+                ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(parsedRating[0], 212, 102);
-                ctx.fillText(parsedRating[1], 229, 102);
-                ctx.fillText(parsedRating[2], 249, 102);
-                ctx.fillText(parsedRating[3], 266, 102);
-                ctx.fillText(parsedRating[4], 283, 102);
+                ctx.fillText(parsedRating[0], 206, 102);
+                ctx.fillText(parsedRating[1], 224, 102);
+                ctx.fillText(parsedRating[2], 241.5, 102);
+                ctx.fillText(parsedRating[3], 258.5, 102);
+                ctx.fillText(parsedRating[4], 276, 102);
             }
 
             ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
@@ -117,7 +118,7 @@ const RatingChartImagePage = ({ data }: { data: {
 
                     if (chartInfo) {
                         const songImg = new Image();
-                        songImg.src = `https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
+                        songImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
 
                         songImg.onload = () => {
                             ctx.save();
@@ -214,7 +215,7 @@ const RatingChartImagePage = ({ data }: { data: {
 
                     if (chartInfo) {
                         const songImg = new Image();
-                        songImg.src = `https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
+                        songImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
 
                         songImg.onload = () => {
                             ctx.save();

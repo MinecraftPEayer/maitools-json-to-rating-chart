@@ -41,6 +41,34 @@ enum Difficulty {
     ReMaster = 4,
 }
 
+const ratingBaseImage = {
+    normal: 'normal',
+    blue: 'blue',
+    green: 'green',
+    yellow: 'yellow',
+    red: 'red',
+    purple: 'purple',
+    bronze: 'bronze',
+    silver: 'silver',
+    gold: 'gold',
+    platinum: 'platinum',
+    rainbow: 'rainbow',
+}
+
+function getRatingBaseImage(rating: number) {
+    if (rating >= 15000) return ratingBaseImage.rainbow
+    if (rating >= 14500) return ratingBaseImage.platinum
+    if (rating >= 14000) return ratingBaseImage.gold
+    if (rating >= 13000) return ratingBaseImage.silver
+    if (rating >= 12000) return ratingBaseImage.bronze
+    if (rating >= 10000) return ratingBaseImage.purple
+    if (rating >= 7000) return ratingBaseImage.red
+    if (rating >= 4000) return ratingBaseImage.yellow
+    if (rating >= 2000) return ratingBaseImage.green
+    if (rating >= 1000) return ratingBaseImage.blue
+    return ratingBaseImage.normal
+}
+
 const diffTip = {
     4: diffRem,
     3: diffMas,
@@ -173,6 +201,8 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                             B15Data = B15Data.slice(0, 15)
                             B35Data = B35Data.slice(0, 35)
 
+                            const rating = B15Data.map(item => item.rating).reduce((a, b) => a + b, 0) + B35Data.map(item => item.rating).reduce((a, b) => a + b, 0)
+
                             let ratingNumberIndex = 0
                             setChartComponent(
                                 <div className='flex'>
@@ -182,9 +212,9 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                             <div className="ml-2">
                                                 <p className='text-black h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>{playerName}</p>
                                                 <div className='w-fit h-fit relative'>
-                                                    <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png`} alt="rating" width={296} height={86} className='h-12 w-auto' />
+                                                    <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_${getRatingBaseImage(rating)}.png`} alt="rating" width={296} height={86} className='h-12 w-auto' />
                                                     <div className='absolute right-2 top-0 flex'>
-                                                        {`${B15Data.map(item => item.rating).reduce((a, b) => a + b, 0) + B35Data.map(item => item.rating).reduce((a, b) => a + b, 0)}`.split('').map((char) => {
+                                                        {`${rating}`.split('').map((char) => {
                                                             ratingNumberIndex++
                                                             return <p key={`ratingNum${ratingNumberIndex}`} className='text-2xl w-[17.5px] leading-12 text-center'>{char}</p>
                                                         })}
@@ -236,5 +266,7 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
 }
 
 export default RatingChart;
+
+export { getRatingBaseImage }
 
 export type { RatingData }

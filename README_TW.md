@@ -7,9 +7,9 @@
 
 # 使用方式
 1. 使用 mai-tools 分析你的 rating
-2. 點擊 "Export as JSON (all records)" 按鈕
-![Step2](public/README_ASSETS/step1_en.png)
+2. 點擊 "匯出成 JSON 格式 (所有歌曲)" 按鈕
+![Step2](image.png)
 3. 上傳 JSON 檔案
 4. 點擊 "Load Chart" 按鈕
-![alt text](public/README_ASSETS/step_3_4_en.png)
+![Step3-4](public/README_ASSETS/step_3_4_en.png)
 5. 在下方圖片按右鍵選擇複製或儲存圖片

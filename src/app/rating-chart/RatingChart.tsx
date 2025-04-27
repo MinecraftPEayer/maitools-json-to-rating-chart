@@ -176,8 +176,6 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                 B35Data: RatingData[] = [];
                             for (const item of data) {
                                 const song = songDatabase.songs.find((song: any) => song.songId === item.songName);
-                                console.log(item)
-                                console.log(song)
                                 if (song) {
                                     let sheet = song.sheets.find((sht: any) => sht.type.toUpperCase() === chartType[item.chartType] && sht.difficulty === diffLabel[item.difficulty]);
                                     if (sheet) {

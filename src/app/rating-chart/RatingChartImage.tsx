@@ -286,8 +286,19 @@ const RatingChartImagePage = ({ data }: { data: {
 
         };
     }, []);
-    return (<div>
+    return (<div className="flex">
         <canvas id="rating-chart"></canvas>
+        <button
+            className="h-16 p-5 ml-5 bg-gray-500 rounded-2xl whitespace-nowrap"
+            onClick={() => {
+            const canvas = document.getElementById('rating-chart') as HTMLCanvasElement;
+            if (!canvas) return;
+
+            const link = document.createElement('a');
+            link.download = 'rating-chart.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }}>Download Chart</button>
     </div>)
 }
 

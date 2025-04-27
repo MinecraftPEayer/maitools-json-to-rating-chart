@@ -13,7 +13,12 @@ const GET = async (req: NextRequest) => {
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         
-        return new NextResponse(buffer);
+        return new NextResponse(buffer, {
+            headers: {
+                'Content-Type': 'image/*',
+                'Access-Control-Allow-Origin': '*'
+            }
+        });
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch image' }, { status: 500 });
     }

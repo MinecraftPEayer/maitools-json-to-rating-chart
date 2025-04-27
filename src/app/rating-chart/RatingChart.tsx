@@ -183,7 +183,7 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                             rating = Math.floor(((item.achievement > 100.5 ? 100.5 : item.achievement) / 100) * RankFactor[convertAchievementToRank(item.achievement)] * constant * 100),
                                             imageURL = song.imageName;
 
-                                        (song.version === 'PRiSM' ? B15Data : B35Data).push({
+                                        ((sheet.regionOverrides.intl.version ?? sheet.version ?? song.version) === 'PRiSM' ? B15Data : B35Data).push({
                                             type: chartType[item.chartType],
                                             title: item.songName,
                                             achievement: item.achievement,

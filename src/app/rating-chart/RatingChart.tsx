@@ -178,11 +178,11 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                 <div className='flex'>
                                     <div className={`p-4 w-[1088px] h-[1674px] bg-[url('../../public/background.png')] bg-center bg-cover ${inter.className}`}>
                                         <div className='bg-white w-[296px] h-fit p-2 flex rounded-xl'>
-                                            <Image src={`https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`} alt="avatar" width={96} height={96}/>
+                                            <Image src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`} alt="avatar" width={96} height={96}/>
                                             <div className="ml-2">
                                                 <p className='text-black h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>{playerName}</p>
                                                 <div className='w-fit h-fit relative'>
-                                                    <Image src="https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png" alt="rating" width={296} height={86} className='h-12 w-auto' />
+                                                    <Image src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png`} alt="rating" width={296} height={86} className='h-12 w-auto' />
                                                     <div className='absolute right-2 top-0 flex'>
                                                         {`${B15Data.map(item => item.rating).reduce((a, b) => a + b, 0) + B35Data.map(item => item.rating).reduce((a, b) => a + b, 0)}`.split('').map((char) => {
                                                             ratingNumberIndex++

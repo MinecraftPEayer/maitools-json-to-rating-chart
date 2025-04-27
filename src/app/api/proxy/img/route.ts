@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const GET = async (req: NextRequest, res: NextResponse) => {
+const GET = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     const imageUrl = searchParams.get('url');
 
@@ -13,12 +13,7 @@ const GET = async (req: NextRequest, res: NextResponse) => {
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         
-        return new NextResponse(buffer, {
-            headers: {
-                'Content-Type': 'image/png',
-                'Cache-Control': 'public, max-age=31536000',
-            },
-        });
+        return new NextResponse(buffer);
     } catch (error) {
         return NextResponse.json({ error: 'Failed to fetch image' }, { status: 500 });
     }

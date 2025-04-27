@@ -42,6 +42,7 @@ const RatingChartImagePage = ({ data }: { data: {
         if (!ctx) return;
 
         const bgImg = new Image()
+        bgImg.crossOrigin = 'anonymous';
         bgImg.src = background.src;
 
         bgImg.onload = () => {
@@ -53,7 +54,7 @@ const RatingChartImagePage = ({ data }: { data: {
             ctx.fill();
 
             const avatarImg = new Image()
-            avatarImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${data.avatar}.png`
+            avatarImg.src = `https://maimaidx-eng.com/maimai-mobile/img/Icon/${data.avatar}.png`
 
             avatarImg.onload = () => {
                 ctx.drawImage(avatarImg, 24, 24, 96, 96);
@@ -71,7 +72,7 @@ const RatingChartImagePage = ({ data }: { data: {
             ctx.fillText(data.playerName, 220, 48);
 
             const ratingImg = new Image();
-            ratingImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png`;
+            ratingImg.src = 'https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png';
             
             ratingImg.onload = () => {
                 ctx.drawImage(ratingImg, 0, 0, 296, 86, 128, 24+48+4, 165, 48);
@@ -116,7 +117,7 @@ const RatingChartImagePage = ({ data }: { data: {
 
                     if (chartInfo) {
                         const songImg = new Image();
-                        songImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
+                        songImg.src = `https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
 
                         songImg.onload = () => {
                             ctx.save();
@@ -154,6 +155,7 @@ const RatingChartImagePage = ({ data }: { data: {
                             ctx.fillText(chartInfo.type, baseX + 8, baseY + 56);
 
                             const difficultyImg = new Image();
+                            difficultyImg.crossOrigin = 'anonymous';
                             difficultyImg.src = diffTip[chartInfo.difficulty];
                             difficultyImg.onload = () => {
                                 ctx.save();
@@ -212,7 +214,7 @@ const RatingChartImagePage = ({ data }: { data: {
 
                     if (chartInfo) {
                         const songImg = new Image();
-                        songImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
+                        songImg.src = `https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${chartInfo.backgroundImg}`;
 
                         songImg.onload = () => {
                             ctx.save();
@@ -250,6 +252,7 @@ const RatingChartImagePage = ({ data }: { data: {
                             ctx.fillText(chartInfo.type, baseX + 8, baseY + 56);
 
                             const difficultyImg = new Image();
+                            difficultyImg.crossOrigin = 'anonymous';
                             difficultyImg.src = diffTip[chartInfo.difficulty];
                             difficultyImg.onload = () => {
                                 ctx.save();

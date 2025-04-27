@@ -6,18 +6,18 @@ import background from '../../../public/background.png'
 import { getRatingBaseImage, RatingData } from "./RatingChart";
 import { Inter } from 'next/font/google'
 
+import diffBsc from '../../../public/diff_bsc.png'
+import diffAdv from '../../../public/diff_adv.png'
 import diffExp from '../../../public/diff_exp.png'
 import diffMas from '../../../public/diff_mas.png'
-const diffBsc = '',
-    diffAdv = '',
-    diffRem = ''
+import diffRem from '../../../public/diff_rem.png'
 
 const diffTip = {
-    4: diffRem,
+    4: diffRem.src,
     3: diffMas.src,
     2: diffExp.src,
-    1: diffAdv,
-    0: diffBsc,
+    1: diffAdv.src,
+    0: diffBsc.src,
 }
 
 const inter = Inter({ 

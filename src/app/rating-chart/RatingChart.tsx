@@ -7,12 +7,13 @@ import { useSearchParams } from 'next/navigation';
 
 const inter = Inter({ subsets: ['latin'], weight: ['400', '700'] });
 
+import diffBsc from '../../../public/diff_bsc.png'
+import diffAdv from '../../../public/diff_adv.png'
 import diffExp from '../../../public/diff_exp.png'
 import diffMas from '../../../public/diff_mas.png'
+import diffRem from '../../../public/diff_rem.png'
+
 import RatingChartImagePage from './RatingChartImage';
-const diffBsc = '',
-    diffAdv = '',
-    diffRem = ''
 
 type RatingData = {
     backgroundImg: string;

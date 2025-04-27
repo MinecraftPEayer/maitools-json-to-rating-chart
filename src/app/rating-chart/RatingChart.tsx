@@ -82,7 +82,7 @@ const RankFactor = {
 // 99.41% 9.5 0.206
 function generateRatingData(data: RatingData[]) {
     return data.map((item) => (<div className='w-48 h-32 bg-cover bg-no-repeat bg-center rounded-lg overflow-hidden relative' key={data.indexOf(item) + 1}>
-        <Image src={`https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${item.backgroundImg}`} alt="" width={192} height={128} className='w-full h-full object-cover absolute left-0 top-0 blur-[2px]' />
+        <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${item.backgroundImg}`} alt="" width={192} height={128} className='w-full h-full object-cover absolute left-0 top-0 blur-[2px]' />
         <div className='bg-black/40 p-2 rounded-lg w-full h-full relative'>
             <p className='text-sm'>#{data.indexOf(item) + 1}</p>
             <p className="truncate">{item.title}</p>
@@ -178,11 +178,11 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                 <div className='flex'>
                                     <div className={`p-4 w-[1088px] h-[1674px] bg-[url('../../public/background.png')] bg-center bg-cover ${inter.className}`}>
                                         <div className='bg-white w-[296px] h-fit p-2 flex rounded-xl'>
-                                            <Image src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`} alt="avatar" width={96} height={96}/>
+                                            <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`} alt="avatar" width={96} height={96}/>
                                             <div className="ml-2">
                                                 <p className='text-black h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>{playerName}</p>
                                                 <div className='w-fit h-fit relative'>
-                                                    <Image src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png`} alt="rating" width={296} height={86} className='h-12 w-auto' />
+                                                    <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_purple.png`} alt="rating" width={296} height={86} className='h-12 w-auto' />
                                                     <div className='absolute right-2 top-0 flex'>
                                                         {`${B15Data.map(item => item.rating).reduce((a, b) => a + b, 0) + B35Data.map(item => item.rating).reduce((a, b) => a + b, 0)}`.split('').map((char) => {
                                                             ratingNumberIndex++

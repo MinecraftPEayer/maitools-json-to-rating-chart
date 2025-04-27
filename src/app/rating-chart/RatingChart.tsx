@@ -112,9 +112,9 @@ function generateRatingData(data: RatingData[]) {
     return data.map((item) => (<div className='w-48 h-32 bg-cover bg-no-repeat bg-center rounded-lg overflow-hidden relative' key={data.indexOf(item) + 1}>
         <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://dp4p6x0xfi5o9.cloudfront.net/maimai/img/cover-m/${item.backgroundImg}`} alt="" width={192} height={128} className='w-full h-full object-cover absolute left-0 top-0 blur-[2px]' />
         <div className='bg-black/40 p-2 rounded-lg w-full h-full relative'>
-            <p className='text-sm'>#{data.indexOf(item) + 1}</p>
+            <p className='text-sm leading-3.5'>#{data.indexOf(item) + 1}</p>
             <p className="truncate">{item.title}</p>
-            <p className="text-sm font-light">{item.type}</p>
+            <p className="text-sm font-light leading-3.5">{item.type}</p>
             <Image src={diffTip[item.difficulty]} width={24} height={24} alt="" className="absolute top-0 right-0"/>
             <div className='absolute left-2 bottom-2'>
                 <p className="text-sm font-light">{item.achievement.toFixed(4)}</p>
@@ -140,7 +140,7 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
 
     const diffLabel = songDatabase.difficulties.map((diff: any) => diff.difficulty)
 
-    return(<div className="p-4">
+    return(<div className="p-4 w-[1120px] h-[1706px]">
         <div className='flex mb-5'>
             <input
                 type="file"

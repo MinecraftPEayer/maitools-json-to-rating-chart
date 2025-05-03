@@ -46,7 +46,7 @@ const ratingBaseImage = {
     normal: 'normal',
     blue: 'blue',
     green: 'green',
-    yellow: 'yellow',
+    yellow: 'orange',
     red: 'red',
     purple: 'purple',
     bronze: 'bronze',
@@ -129,11 +129,20 @@ function generateRatingData(data: RatingData[]) {
     </div>))
 }
 
+
+
+
 const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
     const [chartComponent, setChartComponent] = useState(<div></div>);
     const [chartImageComponent, setChartImageComponent] = useState(<div></div>);
+    const [userInfo, setUserInfo] = useState({
+        avatar: '',
+        name: ''
+    });
+    const [checkUserComponent, setCheckUserComponent] = useState(<div></div>);
     const [fileName, setFileName] = useState('');
     const [errorText, setErrorText] = useState('');
+    const [checked, setChecked] = useState(false);
 
     const params = useSearchParams()
     const playerName = params.get('playerName');
@@ -141,7 +150,38 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
 
     const diffLabel = songDatabase.difficulties.map((diff: any) => diff.difficulty)
 
+    async function fetchFriendCode() {
+        let data = await fetch(`/api/userInfo?friendCode=${(document.getElementById('friendCode') as HTMLInputElement).value}`)
+        if (data.ok) {
+            let res = await data.json()
+            console.log(res)
+            if (res.error) {
+                setErrorText(res.error)
+                return
+            }
+            setUserInfo({
+                avatar: res.avatar,
+                name: res.name
+            })
+            setCheckUserComponent(<div className='flex'>
+                <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=${res.avatar}`} alt="avatar" width={68} height={68}/>
+                <p className='text-xl text-gray-100 p-2 leading-16 h-16 ml-5'>{res.name}</p>
+            </div>)
+        }
+    }
+
     return(<div className="p-4 w-[1120px] h-[1706px]">
+        <div className='flex mb-5'>
+            <input type='text' id='friendCode' placeholder='Friend Code' className='border-gray-600 border-2 flex p-5 rounded-2xl cursor-pointer text-white w-128 relative overflow-hidden' />
+            <button className='ml-5 p-5 bg-gray-700 rounded-2xl cursor-pointer' onClick={async () => {
+                if (userInfo.avatar === '' && userInfo.name === '') await fetchFriendCode()
+                setChecked(true)
+            }}>Check</button>
+
+            <div className='ml-5'>
+                {checkUserComponent}
+            </div>
+        </div>
         <div className='flex mb-5'>
             <input
                 type="file"
@@ -160,7 +200,12 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
             </label>
             <button
                 className='ml-5 p-5 bg-gray-700 rounded-2xl cursor-pointer'
+                id='loadChart'
                 onClick={async () => {
+                    if ((document.getElementById('friendCode') as HTMLInputElement).value && !checked && !avatar && !playerName) {
+                        setErrorText('Please check the user first.')
+                        return
+                    }
                     const input = document.querySelector('input[type="file"]') as HTMLInputElement;
                     const file = input.files?.[0];
                     if (file) {
@@ -207,9 +252,9 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                 <div className='flex'>
                                     <div className={`p-4 w-[1088px] h-[1674px] bg-[url('../../public/background.png')] bg-center bg-cover ${inter.className}`}>
                                         <div className='bg-white w-[296px] h-fit p-2 flex rounded-xl'>
-                                            <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`} alt="avatar" width={96} height={96}/>
+                                            <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=${userInfo.avatar ?? `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`}`} alt="avatar" width={96} height={96}/>
                                             <div className="ml-2">
-                                                <p className='text-black h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>{playerName}</p>
+                                                <p className='text-black h-12 text-xl leading-[32px] bg-gray-100 p-2 rounded-md'>{userInfo.name ?? playerName}</p>
                                                 <div className='w-fit h-fit relative'>
                                                     <img src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/rating_base_${getRatingBaseImage(rating)}.png`} alt="rating" width={296} height={86} className='h-12 w-auto' />
                                                     <div className='absolute right-2 top-0 flex'>
@@ -240,8 +285,8 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                                 </div>);
 
                                 setChartImageComponent(<RatingChartImagePage data={{
-                                        playerName: playerName as string,
-                                        avatar: avatar as string,
+                                        playerName: (userInfo.name ?? playerName) as string,
+                                        avatar: (userInfo.avatar ?? `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`) as string,
                                         B15: B15Data,
                                         B35: B35Data
                                     }}/>)  

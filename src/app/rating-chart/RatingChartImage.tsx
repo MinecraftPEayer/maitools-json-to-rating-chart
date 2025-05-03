@@ -54,7 +54,7 @@ const RatingChartImagePage = ({ data }: { data: {
             ctx.fill();
 
             const avatarImg = new Image()
-            avatarImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${data.avatar}.png`
+            avatarImg.src = `${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=${data.avatar}`
 
             avatarImg.onload = () => {
                 ctx.drawImage(avatarImg, 24, 24, 96, 96);

@@ -132,7 +132,7 @@ function generateRatingData(data: RatingData[]) {
 
 
 
-const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
+const RatingChart = ({ songDatabase, expection }: { songDatabase: any, expection: any }) => {
     const [chartComponent, setChartComponent] = useState(<div></div>);
     const [chartImageComponent, setChartImageComponent] = useState(<div></div>);
     const [userInfo, setUserInfo] = useState({
@@ -220,7 +220,7 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
                             let B15Data: RatingData[] = [],
                                 B35Data: RatingData[] = [];
                             for (const item of data) {
-                                const song = songDatabase.songs.find((song: any) => song.songId === item.songName);
+                                const song = songDatabase.songs.find((song: any) => song.songId === (expection[item.songName] ?? item.songName));
                                 if (song) {
                                     let sheet = song.sheets.find((sht: any) => sht.type.toUpperCase() === chartType[item.chartType] && sht.difficulty === diffLabel[item.difficulty]);
                                     if (sheet) {
@@ -230,7 +230,7 @@ const RatingChart = ({ songDatabase }: { songDatabase: any }) => {
 
                                         ((sheet.regionOverrides.intl.version ?? sheet.version ?? song.version) === 'PRiSM' ? B15Data : B35Data).push({
                                             type: chartType[item.chartType],
-                                            title: item.songName,
+                                            title: expection[item.songName] ?? item.songName,
                                             achievement: item.achievement,
                                             ranking: convertAchievementToRank(item.achievement),
                                             backgroundImg: imageURL,

@@ -33,6 +33,7 @@ const RatingChartImagePage = ({
         avatar: string;
         B15: RatingData[];
         B35: RatingData[];
+        timestamp: Date;
     };
 }) => {
     useEffect(() => {
@@ -46,6 +47,8 @@ const RatingChartImagePage = ({
 
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         const bgImg = new Image();
         bgImg.crossOrigin = "anonymous";
@@ -397,7 +400,7 @@ const RatingChartImagePage = ({
                 }
             }
         };
-    }, []);
+    }, [data.timestamp]);
     return (
         <div className="flex">
             <canvas id="rating-chart"></canvas>

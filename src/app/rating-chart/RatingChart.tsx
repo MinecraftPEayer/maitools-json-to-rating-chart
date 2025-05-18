@@ -223,7 +223,7 @@ const RatingChart = ({
     }
 
     return (
-        <div className="p-4 w-[1120px] h-[1706px]">
+        <div className="p-4 w-[1120px] h-[1706px] bg-black">
             <div className="flex mb-5">
                 <input
                     type="text"
@@ -234,6 +234,11 @@ const RatingChart = ({
                 <button
                     className="ml-5 p-5 bg-gray-700 rounded-2xl cursor-pointer"
                     onClick={async () => {
+                        setCheckUserComponent(
+                            <div className="text-white">
+                                Checking, Please wait...
+                            </div>,
+                        );
                         if (userInfo.avatar === "" && userInfo.name === "")
                             await fetchFriendCode();
                         setChecked(true);
@@ -260,12 +265,12 @@ const RatingChart = ({
                     className="border-gray-600 border-2 flex p-5 rounded-2xl cursor-pointer text-white w-128 relative overflow-hidden"
                 >
                     {fileName ? fileName : "Upload a JSON file..."}
-                    <div className="absolute right-0 p-5 top-0 bg-gray-600">
+                    <div className="absolute right-0 p-5 top-0 bg-gray-600 text-white">
                         Browse
                     </div>
                 </label>
                 <button
-                    className="ml-5 p-5 bg-gray-700 rounded-2xl cursor-pointer"
+                    className="ml-5 p-5 bg-gray-700 rounded-2xl cursor-pointer text-white"
                     id="loadChart"
                     onClick={async () => {
                         if (
@@ -310,6 +315,7 @@ const RatingChart = ({
                                     );
                                     return;
                                 }
+                                setChartImageComponent(<div></div>);
                                 let B15Data: RatingData[] = [],
                                     B35Data: RatingData[] = [];
                                 for (const item of data) {
@@ -476,12 +482,15 @@ const RatingChart = ({
                                                 `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`) as string,
                                             B15: B15Data,
                                             B35: B35Data,
+                                            timestamp: new Date(),
                                         }}
                                     />,
                                 );
                             } catch (error) {
                                 console.error("Error parsing JSON:", error);
                             }
+                        } else {
+                            setErrorText("Please upload a JSON file.");
                         }
                     }}
                 >

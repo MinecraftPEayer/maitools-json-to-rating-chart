@@ -13,6 +13,8 @@ import diffExp from "../../../public/diff_exp.png";
 import diffMas from "../../../public/diff_mas.png";
 import diffRem from "../../../public/diff_rem.png";
 
+import GitHubIcon from "../../../public/github.svg";
+
 import RatingChartImagePage from "./RatingChartImage";
 
 type RatingData = {
@@ -504,6 +506,17 @@ const RatingChart = ({
             {chartComponent}
 
             <div className="mt-5">{chartImageComponent}</div>
+
+            <a
+                className="fixed bottom-5 right-5 w-12 h-12"
+                href="https://github.com/MinecraftPEayer/maitools-json-to-rating-chart"
+            >
+                <GitHubIcon
+                    className="w-full h-full"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 100 100"
+                />
+            </a>
         </div>
     );
 };

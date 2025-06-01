@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700"] });
@@ -189,6 +189,29 @@ const RatingChart = ({
     const playerName = params.get("playerName");
     const avatar = params.get("avatar");
 
+    useEffect(() => {
+        if (playerName && avatar) {
+            setChecked(true);
+            setUserInfo({
+                avatar: avatar,
+                name: playerName,
+            });
+            setCheckUserComponent(
+                <div className="flex">
+                    <img
+                        src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`}
+                        alt="avatar"
+                        width={68}
+                        height={68}
+                    />
+                    <p className="text-xl text-gray-100 p-2 leading-16 h-16 ml-5">
+                        {playerName}
+                    </p>
+                </div>,
+            );
+        }
+    }, []);
+
     const diffLabel = songDatabase.difficulties.map(
         (diff: any) => diff.difficulty,
     );
@@ -230,8 +253,13 @@ const RatingChart = ({
                 <input
                     type="text"
                     id="friendCode"
-                    placeholder="Friend Code"
+                    placeholder={
+                        avatar && playerName
+                            ? "Disabled due to provided avatar and username in search params"
+                            : "Friend Code"
+                    }
                     className="border-gray-600 border-2 flex p-5 rounded-2xl cursor-pointer text-white w-128 relative overflow-hidden"
+                    disabled={!!avatar && !!playerName}
                 />
                 <button
                     className="ml-5 p-5 bg-gray-700 rounded-2xl cursor-pointer"
@@ -245,6 +273,7 @@ const RatingChart = ({
                             await fetchFriendCode();
                         setChecked(true);
                     }}
+                    disabled={checked}
                 >
                     Check
                 </button>
@@ -398,7 +427,7 @@ const RatingChart = ({
                                         >
                                             <div className="bg-white w-[296px] h-fit p-2 flex rounded-xl">
                                                 <img
-                                                    src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=${userInfo.avatar ?? `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`}`}
+                                                    src={`${process.env.NEXT_PUBLIC_URL}/api/proxy/img?url=${avatar ? `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png` : userInfo.avatar}`}
                                                     alt="avatar"
                                                     width={96}
                                                     height={96}
@@ -480,8 +509,9 @@ const RatingChart = ({
                                         data={{
                                             playerName: (userInfo.name ??
                                                 playerName) as string,
-                                            avatar: (userInfo.avatar ??
-                                                `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`) as string,
+                                            avatar: (avatar
+                                                ? `https://maimaidx-eng.com/maimai-mobile/img/Icon/${avatar}.png`
+                                                : userInfo.avatar) as string,
                                             B15: B15Data,
                                             B35: B35Data,
                                             timestamp: new Date(),

@@ -12,10 +12,12 @@ const GET = async (req: NextRequest) => {
         const response = await fetch(imageUrl);
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
-        
+
+        const contentType = response.headers.get('content-type');
         return new NextResponse(buffer, {
             headers: {
-                'Content-Type': 'image/*',
+                'Content-Type': contentType || 'image/jpeg',
+                'Content-Disposition': 'inline',
                 'Access-Control-Allow-Origin': '*'
             }
         });

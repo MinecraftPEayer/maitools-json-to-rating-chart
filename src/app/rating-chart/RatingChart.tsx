@@ -384,7 +384,7 @@ const RatingChart = ({
                                             ((sheet.regionOverrides.intl
                                                 .version ??
                                                 sheet.version ??
-                                                song.version) === "PRiSM"
+                                                song.version) === "PRiSM PLUS"
                                                 ? B15Data
                                                 : B35Data
                                             ).push({

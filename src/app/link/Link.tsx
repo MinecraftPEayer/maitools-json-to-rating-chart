@@ -21,7 +21,7 @@ const LinkPage = () => {
     useEffect(() => {
         (async () => {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_REDIRECT_URI}?code=${code}`,
+                `${process.env.NEXT_PUBLIC_URL}/api/auth/link?code=${code}`,
             );
             setUserData(response.data);
 

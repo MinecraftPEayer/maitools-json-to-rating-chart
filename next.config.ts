@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
             new URL("https://dp4p6x0xfi5o9.cloudfront.net/**"),
             new URL(`http://127.0.0.1/**`),
             new URL(`https://chart.minecraftpeayer.me/**`),
+            new URL(`https://cdn.discordapp.com/**`),
         ],
     },
     webpack(config) {

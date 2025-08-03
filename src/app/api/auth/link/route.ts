@@ -1,6 +1,18 @@
 import axios from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
+function generateRandomString(length: number): string {
+    const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+            Math.floor(Math.random() * characters.length),
+        );
+    }
+    return result;
+}
+
 const GET = async (request: NextRequest) => {
     const code = request.nextUrl.searchParams.get("code");
     if (!code) {
@@ -36,10 +48,41 @@ const GET = async (request: NextRequest) => {
         );
         let userData = userDataResponse.data;
 
+        let userToken = generateRandomString(32);
+        let checkAvailable = false;
+        while (!checkAvailable) {
+            userToken = generateRandomString(32);
+            console.log(`Checking availability for token: ${userToken}`);
+            checkAvailable = (
+                await axios.get(
+                    `${process.env.BOT_API_URL}/api/user/check?token=${userToken}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${process.env.BOT_API_KEY}`,
+                        },
+                    },
+                )
+            ).data.available;
+        }
+
+        await axios.post(
+            `${process.env.BOT_API_URL}/api/user/authenticate`,
+            {
+                id: userData.id,
+                token: userToken,
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.BOT_API_KEY}`,
+                },
+            },
+        );
+
         return NextResponse.json({
             id: userData.id,
             username: userData.username,
             avatar: userData.avatar,
+            token: userToken,
         });
     } catch (e: any) {
         console.error(e.response.data);

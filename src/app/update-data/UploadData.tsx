@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import localFont from "next/font/local";
-import { useState, useEffect } from "react";
+import { useState, useEffect, JSX } from "react";
+import axios from "axios";
+
+const imageBaseURL = "https://maimaidx-eng.com/maimai-mobile/img/";
 
 const mai = localFont({
     src: "../../../public/fonts/SEGAMaruGothicDB.ttf",
@@ -41,6 +44,22 @@ const textColor = {
     good: "#2fca4c",
     miss: "#8c8c8c",
 };
+
+const judgementText = {
+    critical: "Crit.P",
+    perfect: "Perfect",
+    great: "Great",
+    good: "Good",
+    miss: "Miss",
+};
+
+const judgements: Array<"critical" | "perfect" | "great" | "good" | "miss"> = [
+    "critical",
+    "perfect",
+    "great",
+    "good",
+    "miss",
+];
 
 type PlayerData = {
     playerName: string;
@@ -120,6 +139,10 @@ type DetailedScoreData = {
         touch: string[];
         break: string[];
     };
+    fastLate: {
+        fast: string;
+        late: string;
+    };
     combo: string;
     sync: string;
 };
@@ -158,6 +181,10 @@ const UploadDataClientPage = () => {
         [diff: string]: AllScoreData[];
     }>({});
     const [userData, setUserData] = useState<any>();
+
+    const [uploadElement, setUploadElement] = useState<JSX.Element | null>(
+        <div className="bg-gray-400 hover:bg-gray-500 p-2">Upload Data</div>,
+    );
 
     let scoreData = {
         basic: [],
@@ -229,6 +256,8 @@ const UploadDataClientPage = () => {
             }
         });
     }, []);
+
+    let ovData = playerData?.overviewData;
 
     return (
         <div className="bg-gray-900">
@@ -344,302 +373,143 @@ const UploadDataClientPage = () => {
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mt-4 w-96">
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_sssp.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.SSSp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_app.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.APp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_sss.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.SSS || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_ap.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.AP || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_ssp.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.SSp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_fcp.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.FCp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_ss.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.SS || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_fc.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.FC || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_sp.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.Sp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_fdxp.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.FDXp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_s.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.S || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_fdx.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.FDX || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_clear.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.CLEAR || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_fsp.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.FSp || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_dxstar_5.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.dxstar_5 || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_fs.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.FS || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_dxstar_4.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.dxstar_4 || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-1">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_sync.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-8"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.SYNCPLAY || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_dxstar_3.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.dxstar_3 || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48"></div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_dxstar_2.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.dxstar_2 || "-/-"}
-                            </div>
-                        </div>
-                        <div className="flex rounded-lg overflow-hidden w-48"></div>
-                        <div className="flex rounded-lg overflow-hidden w-48">
-                            <div className="bg-blue-400 p-2 w-[76px]">
-                                <Image
-                                    src="https://maimaidx-eng.com/maimai-mobile/img/music_icon_dxstar_1.png"
-                                    alt=""
-                                    width={68}
-                                    height={31}
-                                    className="object-contain h-6"
-                                />
-                            </div>
-                            <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
-                                {playerData?.overviewData.dxstar_1 || "-/-"}
-                            </div>
-                        </div>
+                        {[
+                            {
+                                imageURL: "music_icon_sssp.png",
+                                value: ovData?.SSSp,
+                            },
+                            {
+                                imageURL: "music_icon_app.png",
+                                value: ovData?.APp,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_sss.png",
+                                value: ovData?.SSS,
+                            },
+                            {
+                                imageURL: "music_icon_ap.png",
+                                value: ovData?.AP,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_ssp.png",
+                                value: ovData?.SSp,
+                            },
+                            {
+                                imageURL: "music_icon_fcp.png",
+                                value: ovData?.FCp,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_ss.png",
+                                value: ovData?.SS,
+                            },
+                            {
+                                imageURL: "music_icon_fc.png",
+                                value: ovData?.FC,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_sp.png",
+                                value: ovData?.Sp,
+                            },
+                            {
+                                imageURL: "music_icon_fdxp.png",
+                                value: ovData?.FDXp,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_s.png",
+                                value: ovData?.S,
+                            },
+                            {
+                                imageURL: "music_icon_fdx.png",
+                                value: ovData?.FDX,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_clear.png",
+                                value: ovData?.CLEAR,
+                            },
+                            {
+                                imageURL: "music_icon_fsp.png",
+                                value: ovData?.FSp,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_dxstar_5.png",
+                                value: ovData?.dxstar_5,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_fs.png",
+                                value: ovData?.FS,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_dxstar_4.png",
+                                value: ovData?.dxstar_4,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_sync.png",
+                                value: ovData?.SYNCPLAY,
+                                bigImage: true,
+                            },
+                            {
+                                imageURL: "music_icon_dxstar_3.png",
+                                value: ovData?.dxstar_3,
+                                bigImage: true,
+                            },
+                            {
+                                empty: true,
+                            },
+                            {
+                                imageURL: "music_icon_dxstar_2.png",
+                                value: ovData?.dxstar_2,
+                                bigImage: true,
+                            },
+                            {
+                                empty: true,
+                            },
+                            {
+                                imageURL: "music_icon_dxstar_1.png",
+                                value: ovData?.dxstar_1,
+                                bigImage: true,
+                            },
+                        ].map((item, index) =>
+                            item.empty ? (
+                                <div
+                                    key={index}
+                                    className="flex rounded-lg overflow-hidden w-48"
+                                ></div>
+                            ) : (
+                                <div
+                                    key={index}
+                                    className="flex rounded-lg overflow-hidden w-48"
+                                >
+                                    <div
+                                        className={
+                                            item.bigImage
+                                                ? "bg-blue-400 p-1"
+                                                : "bg-blue-400 p-2 w-[76px]"
+                                        }
+                                    >
+                                        <Image
+                                            src={imageBaseURL + item.imageURL!}
+                                            alt=""
+                                            width={68}
+                                            height={31}
+                                            className={`object-contain ${item.bigImage ? "h-8" : "h-6"}`}
+                                        />
+                                    </div>
+                                    <div className="bg-gray-200 text-black p-2 w-32 text-right leading-[24px] ">
+                                        {item.value || "-/-"}
+                                    </div>
+                                </div>
+                            ),
+                        )}
                     </div>
                     <div className="mt-4">
                         {userData ? (
@@ -663,43 +533,39 @@ const UploadDataClientPage = () => {
                                 </div>
 
                                 <div
-                                    className="bg-gray-400 p-2 rounded-lg mt-2 cursor-pointer hover:bg-gray-500"
-                                    onClick={() => {
-                                        const dataStr =
-                                            "data:text/json;charset=utf-8," +
-                                            encodeURIComponent(
-                                                JSON.stringify({
-                                                    playerData,
-                                                    recentScores,
-                                                    recentCreditDetail:
-                                                        RecentDetail,
-                                                    allScores,
-                                                    userData,
-                                                }),
+                                    className="mt-2 cursor-pointer rounded-lg overflow-hidden"
+                                    onClick={async () => {
+                                        const body = {
+                                            data: {
+                                                playerData,
+                                                recentScores,
+                                                recentCreditDetail:
+                                                    RecentDetail,
+                                                allScores,
+                                            },
+                                            userData,
+                                        };
+
+                                        let resp = await axios.post(
+                                            `${process.env.NEXT_PUBLIC_URL}/api/upload-data`,
+                                            body,
+                                        );
+
+                                        if (resp.data.success) {
+                                            setUploadElement(
+                                                <div className="bg-green-500 p-2">
+                                                    Success!
+                                                </div>,
                                             );
-                                        const downloadAnchorNode =
-                                            document.createElement("a");
-                                        downloadAnchorNode.setAttribute(
-                                            "href",
-                                            dataStr,
-                                        );
-                                        downloadAnchorNode.setAttribute(
-                                            "download",
-                                            "maimai-data.json",
-                                        );
-                                        document.body.appendChild(
-                                            downloadAnchorNode,
-                                        );
-                                        downloadAnchorNode.click();
-                                        downloadAnchorNode.remove();
+                                        }
                                     }}
                                 >
-                                    Download data
+                                    {uploadElement}
                                 </div>
                             </div>
                         ) : (
                             <div
-                                className="bg-[#5865F2] w-fit h-fit p-4 rounded-2xl"
+                                className="bg-[#5865F2] w-fit h-fit p-4 rounded-2xl cursor-pointer hover:bg-[#4752C4]"
                                 onClick={() => {
                                     let authPage = window.open(
                                         `https://discord.com/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&scope=identify`,
@@ -722,27 +588,22 @@ const UploadDataClientPage = () => {
                 <table className="ml-8 h-fit rounded-2xl overflow-hidden border-spacing-x-1">
                     <thead>
                         <tr>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Track
-                            </th>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Time
-                            </th>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Difficulty
-                            </th>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Level
-                            </th>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Chart Type
-                            </th>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Song Name
-                            </th>
-                            <th className="p-2 bg-gray-700 text-white px-1">
-                                Achievement
-                            </th>
+                            {[
+                                "Track",
+                                "Time",
+                                "Difficulty",
+                                "Level",
+                                "Chart Type",
+                                "Song Name",
+                                "Achievement",
+                            ].map((header) => (
+                                <th
+                                    key={header}
+                                    className="p-2 bg-gray-700 text-white px-1"
+                                >
+                                    {header}
+                                </th>
+                            ))}
                         </tr>
                     </thead>
                     <tbody className="border-spacing-4">
@@ -847,46 +708,23 @@ const UploadDataClientPage = () => {
                                         <thead>
                                             <tr>
                                                 <th className="px-1 border-black border-2"></th>
-                                                <th
-                                                    className="px-1 border-black border-2"
-                                                    style={{
-                                                        color: textColor.critical,
-                                                    }}
-                                                >
-                                                    Crit.P
-                                                </th>
-                                                <th
-                                                    className="px-1 border-black border-2"
-                                                    style={{
-                                                        color: textColor.perfect,
-                                                    }}
-                                                >
-                                                    Perfect
-                                                </th>
-                                                <th
-                                                    className="px-1 border-black border-2"
-                                                    style={{
-                                                        color: textColor.great,
-                                                    }}
-                                                >
-                                                    Great
-                                                </th>
-                                                <th
-                                                    className="px-1 border-black border-2"
-                                                    style={{
-                                                        color: textColor.good,
-                                                    }}
-                                                >
-                                                    Good
-                                                </th>
-                                                <th
-                                                    className="px-1 border-black border-2"
-                                                    style={{
-                                                        color: textColor.miss,
-                                                    }}
-                                                >
-                                                    Miss
-                                                </th>
+                                                {judgements.map((judgement) => (
+                                                    <th
+                                                        key={judgement}
+                                                        className="px-1 border-black border-2"
+                                                        style={{
+                                                            color: textColor[
+                                                                judgement
+                                                            ],
+                                                        }}
+                                                    >
+                                                        {
+                                                            judgementText[
+                                                                judgement
+                                                            ]
+                                                        }
+                                                    </th>
+                                                ))}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -895,46 +733,22 @@ const UploadDataClientPage = () => {
                                                     <td className="px-1 border-black border-2 text-gray-700">
                                                         {row[0].toUpperCase()}
                                                     </td>
-                                                    <td
-                                                        className="px-1 border-black border-2"
-                                                        style={{
-                                                            color: textColor.critical,
-                                                        }}
-                                                    >
-                                                        {row[1]}
-                                                    </td>
-                                                    <td
-                                                        className="px-1 border-black border-2"
-                                                        style={{
-                                                            color: textColor.perfect,
-                                                        }}
-                                                    >
-                                                        {row[2]}
-                                                    </td>
-                                                    <td
-                                                        className="px-1 border-black border-2"
-                                                        style={{
-                                                            color: textColor.great,
-                                                        }}
-                                                    >
-                                                        {row[3]}
-                                                    </td>
-                                                    <td
-                                                        className="px-1 border-black border-2"
-                                                        style={{
-                                                            color: textColor.good,
-                                                        }}
-                                                    >
-                                                        {row[4]}
-                                                    </td>
-                                                    <td
-                                                        className="px-1 border-black border-2"
-                                                        style={{
-                                                            color: textColor.miss,
-                                                        }}
-                                                    >
-                                                        {row[5]}
-                                                    </td>
+
+                                                    {judgements.map(
+                                                        (judgement, index) => (
+                                                            <td
+                                                                key={index}
+                                                                className="px-1 border-black border-2"
+                                                                style={{
+                                                                    color: textColor[
+                                                                        judgement
+                                                                    ],
+                                                                }}
+                                                            >
+                                                                {row[index + 1]}
+                                                            </td>
+                                                        ),
+                                                    )}
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -943,6 +757,23 @@ const UploadDataClientPage = () => {
                             })()}
                             <div>Combo: {detail.combo}</div>
                             <div>Sync: {detail.sync}</div>
+                            <div className="absolute right-2 bottom-2 text-xl">
+                                <div className="flex text-sm absolute right-0 -top-4">
+                                    <p className="text-blue-500">FAST</p>
+                                    <p className="mx-1">/</p>
+                                    <p className="text-red-500">LATE</p>
+                                </div>
+
+                                <div className="flex">
+                                    <p className="text-blue-500">
+                                        {detail.fastLate.fast}
+                                    </p>
+                                    <p className="mx-1">/</p>
+                                    <p className="text-red-500">
+                                        {detail.fastLate.late}
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>

@@ -19,7 +19,7 @@ const difficultyNumber = {
     remaster: 4
 };
 
-const ToolURL = 'https://special-telegram-pqg6677gxw6f7qvw-3000.app.github.dev/update-data';
+const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
 
 (function () {
     'use strict';

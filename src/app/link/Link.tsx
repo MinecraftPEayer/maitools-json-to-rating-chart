@@ -2,9 +2,11 @@
 
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const LinkPage = () => {
+    const [displayText, setDisplayText] = useState('Please wait...');
+
     let code = useSearchParams().get("code");
     if (!code) {
         const AUTH_URL = `https://discord.com/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_CLIENT_ID}&response_type=code&redirect_uri=${process.env.NEXT_PUBLIC_REDIRECT_URI}&scope=identify`;
@@ -24,11 +26,13 @@ const LinkPage = () => {
                 `userData__${JSON.stringify(response.data)}`,
                 "*",
             );
+
+            setDisplayText('Login completed, you can close this tab now.');
             window.close();
         })();
     }, []);
 
-    return <div>Please wait...</div>;
+    return <div>{displayText}</div>;
 };
 
 export default LinkPage;

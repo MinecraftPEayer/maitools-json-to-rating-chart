@@ -185,6 +185,7 @@ const UploadDataClientPage = () => {
     const [uploadElement, setUploadElement] = useState<JSX.Element | null>(
         <div className="bg-gray-400 hover:bg-gray-500 p-2">Upload Data</div>,
     );
+    const [uploadClicked, setUploadClicked] = useState(false);
 
     let scoreData = {
         basic: [],
@@ -535,6 +536,13 @@ const UploadDataClientPage = () => {
                                 <div
                                     className="mt-2 cursor-pointer rounded-lg overflow-hidden"
                                     onClick={async () => {
+                                        if (uploadClicked) return;
+                                        setUploadClicked(true);
+                                        setUploadElement(
+                                                <div className="bg-gray-700 p-2">
+                                                    Uploading...
+                                                </div>,
+                                            );
                                         const body = {
                                             data: {
                                                 playerData,

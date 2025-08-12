@@ -85,7 +85,7 @@ const GET = async (request: NextRequest) => {
             token: userToken,
         });
     } catch (e: any) {
-        console.error(e.response.data);
+        console.error(e);
         return NextResponse.json(
             { error: "Authentication failed" },
             { status: 401 },

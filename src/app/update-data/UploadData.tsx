@@ -187,6 +187,8 @@ const UploadDataClientPage = () => {
     );
     const [uploadClicked, setUploadClicked] = useState(false);
 
+    const [fetchLocked, setFetchLocked] = useState(false);
+
     let scoreData = {
         basic: [],
         advanced: [],
@@ -217,7 +219,9 @@ const UploadDataClientPage = () => {
             }
             if (event.data.type === "recentDetail") {
                 RecentDetail.push(event.data.data);
-                RecentDetail.sort((a, b) => a.track - b.track);
+                RecentDetail.sort(
+                    (a, b) => a.time.getTime() - b.time.getTime(),
+                );
                 setRecentDetail([...RecentDetail]);
             }
             if (event.data.type === "scoresData") {
@@ -539,10 +543,10 @@ const UploadDataClientPage = () => {
                                         if (uploadClicked) return;
                                         setUploadClicked(true);
                                         setUploadElement(
-                                                <div className="bg-gray-700 p-2">
-                                                    Uploading...
-                                                </div>,
-                                            );
+                                            <div className="bg-gray-700 p-2">
+                                                Uploading...
+                                            </div>,
+                                        );
                                         const body = {
                                             data: {
                                                 playerData,
@@ -627,6 +631,29 @@ const UploadDataClientPage = () => {
                                             : "",
                                 }}
                                 key={recentScores.indexOf(score)}
+                                onClick={() => {
+                                    if (fetchLocked)
+                                        return console.log("Fetching Locked.");
+                                    console.log(RecentDetail, score);
+                                    if (
+                                        RecentDetail.some(
+                                            (item) => item.idx === score.idx,
+                                        )
+                                    )
+                                        return console.log("Score existed.");
+                                    console.log(
+                                        "Requesting recent detail.",
+                                        score.idx,
+                                    );
+                                    window.opener.postMessage(
+                                        `request_recentDetail__${score.idx}`,
+                                        "*",
+                                    );
+                                    setFetchLocked(true);
+                                    setTimeout(() => {
+                                        setFetchLocked(false);
+                                    }, 5000);
+                                }}
                             >
                                 <td className="px-1">{score.track}</td>
                                 <td className="px-1">
@@ -654,7 +681,7 @@ const UploadDataClientPage = () => {
                                     difficultyColor[detail.difficulty],
                             }}
                             className="p-2 rounded-lg mb-2 relative"
-                            key={detail.track}
+                            key={RecentDetail.indexOf(detail)}
                         >
                             <div className="absolute top-2 right-2">
                                 <p className="text-2xl">{detail.level}</p>

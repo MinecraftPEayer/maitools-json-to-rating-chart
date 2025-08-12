@@ -19,7 +19,7 @@ const difficultyNumber = {
     remaster: 4
 };
 
-const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
+const ToolURL = 'https://preview.chart.minecraftpeayer.me/update-data';
 
 (function () {
     'use strict';

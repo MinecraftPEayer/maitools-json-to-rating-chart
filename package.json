@@ -15,7 +15,8 @@
     "next": "15.3.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "set-cookie-parser": "^2.7.1"
+    "set-cookie-parser": "^2.7.1",
+    "stackblur-canvas": "^2.7.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

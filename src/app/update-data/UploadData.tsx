@@ -552,6 +552,7 @@ const UploadDataClientPage = () => {
                                                 allScores,
                                             },
                                             userData,
+                                            date: Date.now()
                                         };
 
                                         let resp = await axios.post(

@@ -550,9 +550,9 @@ const UploadDataClientPage = () => {
                                                 recentCreditDetail:
                                                     RecentDetail,
                                                 allScores,
+                                                date: Date.now()
                                             },
                                             userData,
-                                            date: Date.now()
                                         };
 
                                         let resp = await axios.post(

@@ -1,14 +1,3 @@
-// ==UserScript==
-// @name         New Userscript
-// @namespace    http://tampermonkey.net/
-// @version      2025-07-26
-// @description  try to take over the world!
-// @author       You
-// @match        https://maimaidx-eng.com/maimai-mobile/home/
-// @icon         https://www.google.com/s2/favicons?sz=64&domain=maimaidx-eng.com
-// @grant        none
-// ==/UserScript==
-
 const indexDefine = ['SSSp', 'APp', 'SSS', 'AP', 'SSp', 'FCp', 'SS', 'FC', 'Sp', 'FDXp', 'S', 'FDX', 'CLEAR', 'FSp', 'dxstar_5', 'FS', 'dxstar_4', 'SYNCPLAY', 'dxstar_3', 'dxstar_2', 'dxstar_1'];
 
 const difficultyNumber = {
@@ -28,7 +17,7 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
     let urlSpan = document.createElement('span')
     let url = document.createElement('a')
     url.href = ToolURL
-    url.innerText = 'HaHa'
+    url.innerText = 'Upload Data to maibot'
     url.target = "ratingChart"
     url.class = 'f_14'
     url.style = 'color: rgb(20, 119, 230);'

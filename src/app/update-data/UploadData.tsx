@@ -76,27 +76,27 @@ type PlayerData = {
         version: number;
     };
     overviewData: {
-        SSSp: string;
-        SSS: string;
-        SSp: string;
-        SS: string;
-        Sp: string;
-        S: string;
-        CLEAR: string;
-        APp: string;
-        AP: string;
-        FCp: string;
-        FC: string;
-        FDXp: string;
-        FDX: string;
-        FSp: string;
-        FS: string;
-        SYNCPLAY: string;
-        dxstar_5: string;
-        dxstar_4: string;
-        dxstar_3: string;
-        dxstar_2: string;
-        dxstar_1: string;
+        SSSp: number[];
+        SSS: number[];
+        SSp: number[];
+        SS: number[];
+        Sp: number[];
+        S: number[];
+        CLEAR: number[];
+        APp: number[];
+        AP: number[];
+        FCp: number[];
+        FC: number[];
+        FDXp: number[];
+        FDX: number[];
+        FSp: number[];
+        FS: number[];
+        SYNCPLAY: number[];
+        dxstar_5: number[];
+        dxstar_4: number[];
+        dxstar_3: number[];
+        dxstar_2: number[];
+        dxstar_1: number[];
     };
 };
 
@@ -143,8 +143,8 @@ type DetailedScoreData = {
         fast: string;
         late: string;
     };
-    combo: string;
-    sync: string;
+    combo: number[];
+    sync: number[];
 };
 
 type AllScoreData = {
@@ -377,90 +377,90 @@ const UploadDataClientPage = () => {
                         {[
                             {
                                 imageURL: "music_icon_sssp.png",
-                                value: ovData?.SSSp,
+                                value: ovData?.SSSp.join("/"),
                             },
                             {
                                 imageURL: "music_icon_app.png",
-                                value: ovData?.APp,
+                                value: ovData?.APp.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_sss.png",
-                                value: ovData?.SSS,
+                                value: ovData?.SSS.join("/"),
                             },
                             {
                                 imageURL: "music_icon_ap.png",
-                                value: ovData?.AP,
+                                value: ovData?.AP.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_ssp.png",
-                                value: ovData?.SSp,
+                                value: ovData?.SSp.join("/"),
                             },
                             {
                                 imageURL: "music_icon_fcp.png",
-                                value: ovData?.FCp,
+                                value: ovData?.FCp.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_ss.png",
-                                value: ovData?.SS,
+                                value: ovData?.SS.join("/"),
                             },
                             {
                                 imageURL: "music_icon_fc.png",
-                                value: ovData?.FC,
+                                value: ovData?.FC.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_sp.png",
-                                value: ovData?.Sp,
+                                value: ovData?.Sp.join("/"),
                             },
                             {
                                 imageURL: "music_icon_fdxp.png",
-                                value: ovData?.FDXp,
+                                value: ovData?.FDXp.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_s.png",
-                                value: ovData?.S,
+                                value: ovData?.S.join("/"),
                             },
                             {
                                 imageURL: "music_icon_fdx.png",
-                                value: ovData?.FDX,
+                                value: ovData?.FDX.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_clear.png",
-                                value: ovData?.CLEAR,
+                                value: ovData?.CLEAR.join("/"),
                             },
                             {
                                 imageURL: "music_icon_fsp.png",
-                                value: ovData?.FSp,
+                                value: ovData?.FSp.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_dxstar_5.png",
-                                value: ovData?.dxstar_5,
+                                value: ovData?.dxstar_5.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_fs.png",
-                                value: ovData?.FS,
+                                value: ovData?.FS.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_dxstar_4.png",
-                                value: ovData?.dxstar_4,
+                                value: ovData?.dxstar_4.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_sync.png",
-                                value: ovData?.SYNCPLAY,
+                                value: ovData?.SYNCPLAY.join("/"),
                                 bigImage: true,
                             },
                             {
                                 imageURL: "music_icon_dxstar_3.png",
-                                value: ovData?.dxstar_3,
+                                value: ovData?.dxstar_3.join("/"),
                                 bigImage: true,
                             },
                             {
@@ -468,7 +468,7 @@ const UploadDataClientPage = () => {
                             },
                             {
                                 imageURL: "music_icon_dxstar_2.png",
-                                value: ovData?.dxstar_2,
+                                value: ovData?.dxstar_2.join("/"),
                                 bigImage: true,
                             },
                             {
@@ -476,7 +476,7 @@ const UploadDataClientPage = () => {
                             },
                             {
                                 imageURL: "music_icon_dxstar_1.png",
-                                value: ovData?.dxstar_1,
+                                value: ovData?.dxstar_1.join("/"),
                                 bigImage: true,
                             },
                         ].map((item, index) =>
@@ -539,10 +539,10 @@ const UploadDataClientPage = () => {
                                         if (uploadClicked) return;
                                         setUploadClicked(true);
                                         setUploadElement(
-                                                <div className="bg-gray-700 p-2">
-                                                    Uploading...
-                                                </div>,
-                                            );
+                                            <div className="bg-gray-700 p-2">
+                                                Uploading...
+                                            </div>,
+                                        );
                                         const body = {
                                             data: {
                                                 playerData,
@@ -550,7 +550,7 @@ const UploadDataClientPage = () => {
                                                 recentCreditDetail:
                                                     RecentDetail,
                                                 allScores,
-                                                date: Date.now()
+                                                date: Date.now(),
                                             },
                                             userData,
                                         };
@@ -764,8 +764,8 @@ const UploadDataClientPage = () => {
                                     </table>
                                 );
                             })()}
-                            <div>Combo: {detail.combo}</div>
-                            <div>Sync: {detail.sync}</div>
+                            <div>Combo: {detail.combo.join("/")}</div>
+                            <div>Sync: {detail.sync.join("/")}</div>
                             <div className="absolute right-2 bottom-2 text-xl">
                                 <div className="flex text-sm absolute right-0 -top-4">
                                     <p className="text-blue-500">FAST</p>

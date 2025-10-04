@@ -8,6 +8,37 @@ const difficultyNumber = {
     remaster: 4
 };
 
+const Difficulty = {
+    Basic: 0,
+    Advanced: 1,
+    Expert: 2,
+    Master: 3,
+    ReMaster: 4
+}
+
+const ComboType = {
+    none: -1,
+    FC: 0,
+    FCp: 1,
+    AP: 2,
+    APp: 3
+}
+
+const SyncType = {
+    none: -1,
+    FS: 0,
+    FSp: 1,
+    FDX: 2,
+    FDXp: 3,
+    SYNC: 4
+}
+
+const ChartType = {
+    STD: 0,
+    DX: 1,
+    UTAGE: 2
+}
+
 const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
 
 (function () {
@@ -58,7 +89,7 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                 for (let i = 0; i < overviewData.length; i++) {
                     let index = indexDefine[i]
                     let text = overviewData[i].textContent.replace(/[\t\n]+/g, '').replace(/,/g, '')
-                    playerData.data.overviewData[index] = text
+                    playerData.data.overviewData[index] = text.split('/').map(item => parseInt(item))
                 }
 
                 let courseImage = dom.querySelectorAll('.h_35.f_l')[0].getAttribute('src')
@@ -85,11 +116,11 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let time = new Date(`${record.querySelectorAll('.playlog_top_container.p_r > .sub_title > span')[1].textContent} GMT+9`)
 
                     let difficulty
-                    if (record.querySelector('.playlog_remaster_container')) difficulty = 'remaster'
-                    else if (record.querySelector('.playlog_master_container')) difficulty = 'master'
-                    else if (record.querySelector('.playlog_expert_container')) difficulty = 'expert'
-                    else if (record.querySelector('.playlog_advanced_container')) difficulty = 'advanced'
-                    else if (record.querySelector('.playlog_basic_container')) difficulty = 'basic'
+                    if (record.querySelector('.playlog_remaster_container')) difficulty = Difficulty.ReMaster
+                    else if (record.querySelector('.playlog_master_container')) difficulty = Difficulty.Master
+                    else if (record.querySelector('.playlog_expert_container')) difficulty = Difficulty.Expert
+                    else if (record.querySelector('.playlog_advanced_container')) difficulty = Difficulty.Advanced
+                    else if (record.querySelector('.playlog_basic_container')) difficulty = Difficulty.Basic
 
                     let songName = record.querySelector(`.playlog_${difficulty}_container > .basic_block`).textContent.replace(record.querySelector('.w_80.f_r > .music_lv_back').textContent, '').replace(/[\t\n]+/g, '')
 
@@ -99,10 +130,10 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let chartTypeSrc = record.querySelector('.playlog_music_kind_icon').getAttribute('src').split('?')[0].split('/')
                     switch (chartTypeSrc[chartTypeSrc.length - 1].replace('.png', '')) {
                         case 'music_standard':
-                            chartType = 'std';
+                            chartType = ChartType.STD;
                             break;
                         case 'music_dx':
-                            chartType = 'dx';
+                            chartType = ChartType.DX;
                             break;
                     }
 
@@ -142,19 +173,19 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let fcTypeSrc = record.querySelectorAll('.playlog_result_innerblock > img')[0].getAttribute('src').split('?')[0].split('/')
                     switch (fcTypeSrc[fcTypeSrc.length - 1].replace('.png', '')) {
                         case 'fc':
-                            fcType = 'FC';
+                            fcType = ComboType.FC;
                             break;
                         case 'fcplus':
-                            fcType = 'FC+';
+                            fcType = ComboType.FCp;
                             break;
                         case 'ap':
-                            fcType = 'AP';
+                            fcType = ComboType.AP;
                             break;
                         case 'applus':
-                            fcType = 'AP+';
+                            fcType = ComboType.APp;
                             break;
                         default:
-                            fcType = '';
+                            fcType = ComboType.none;
                             break;
                     }
 
@@ -162,19 +193,19 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let syncTypeSrc = record.querySelectorAll('.playlog_result_innerblock > img')[1].getAttribute('src').split('?')[0].split('/')
                     switch (syncTypeSrc[syncTypeSrc.length - 1].replace('.png', '')) {
                         case 'sync':
-                            syncType = 'SYNC';
+                            syncType = SyncType.SYNC;
                             break;
                         case 'fs':
-                            syncType = 'FS';
+                            syncType = SyncType.FS;
                             break;
                         case 'fsplus':
-                            syncType = 'FS+';
+                            syncType = SyncType.FSp;
                             break;
                         case 'fsd':
-                            syncType = 'FDX';
+                            syncType = SyncType.FDX;
                             break;
                         case 'fsdplus':
-                            syncType = 'FDX+';
+                            syncType = SyncType.FDXp;
                             break;
                         default:
                             syncType = '';
@@ -217,11 +248,11 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                 let time = new Date(`${record.querySelectorAll('.playlog_top_container.p_r > .sub_title > span')[1].textContent} GMT+9`)
 
                 let difficulty
-                if (record.querySelector('.playlog_remaster_container')) difficulty = 'remaster'
-                else if (record.querySelector('.playlog_master_container')) difficulty = 'master'
-                else if (record.querySelector('.playlog_expert_container')) difficulty = 'expert'
-                else if (record.querySelector('.playlog_advanced_container')) difficulty = 'advanced'
-                else if (record.querySelector('.playlog_basic_container')) difficulty = 'basic'
+                if (record.querySelector('.playlog_remaster_container')) difficulty = Difficulty.ReMaster
+                else if (record.querySelector('.playlog_master_container')) difficulty = Difficulty.Master
+                else if (record.querySelector('.playlog_expert_container')) difficulty = Difficulty.Expert
+                else if (record.querySelector('.playlog_advanced_container')) difficulty = Difficulty.Advanced
+                else if (record.querySelector('.playlog_basic_container')) difficulty = Difficulty.Basic
 
                 let songName = record.querySelector(`.playlog_${difficulty}_container > .basic_block`).textContent.replace(record.querySelector('.w_80.f_r > .music_lv_back').textContent, '').replace(/[\t\n]+/g, '')
 
@@ -231,10 +262,10 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                 let chartTypeSrc = record.querySelector('.playlog_music_kind_icon').getAttribute('src').split('?')[0].split('/')
                 switch (chartTypeSrc[chartTypeSrc.length - 1].replace('.png', '')) {
                     case 'music_standard':
-                        chartType = 'std';
+                        chartType = ChartType.STD;
                         break;
                     case 'music_dx':
-                        chartType = 'dx';
+                        chartType = ChartType.DX;
                         break;
                 }
 
@@ -274,19 +305,19 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                 let fcTypeSrc = record.querySelectorAll('.playlog_result_innerblock > img')[0].getAttribute('src').split('?')[0].split('/')
                 switch (fcTypeSrc[fcTypeSrc.length - 1].replace('.png', '')) {
                     case 'fc':
-                        fcType = 'FC';
+                        fcType = ComboType.FC;
                         break;
                     case 'fcplus':
-                        fcType = 'FC+';
+                        fcType = ComboType.FCp;
                         break;
                     case 'ap':
-                        fcType = 'AP';
+                        fcType = ComboType.AP;
                         break;
                     case 'applus':
-                        fcType = 'AP+';
+                        fcType = ComboType.APp;
                         break;
                     default:
-                        fcType = '';
+                        fcType = ComboType.none;
                         break;
                 }
 
@@ -294,22 +325,22 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                 let syncTypeSrc = record.querySelectorAll('.playlog_result_innerblock > img')[1].getAttribute('src').split('?')[0].split('/')
                 switch (syncTypeSrc[syncTypeSrc.length - 1].replace('.png', '')) {
                     case 'sync':
-                        syncType = 'SYNC';
+                        syncType = SyncType.SYNC;
                         break;
                     case 'fs':
-                        syncType = 'FS';
+                        syncType = SyncType.FS;
                         break;
                     case 'fsplus':
-                        syncType = 'FS+';
+                        syncType = SyncType.FSp;
                         break;
                     case 'fsd':
-                        syncType = 'FDX';
+                        syncType = SyncType.FDX;
                         break;
                     case 'fsdplus':
-                        syncType = 'FDX+';
+                        syncType = SyncType.FDXp;
                         break;
                     default:
-                        syncType = '';
+                        syncType = SyncType.none;
                         break;
                 }
 
@@ -329,8 +360,8 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
 
                 }
 
-                let combo = dom.querySelectorAll('.gray_block > .p_5 > .col2 > .playlog_score_block')[0].textContent.replace(/[\t\n]+/g, '')
-                let sync = dom.querySelectorAll('.gray_block > .p_5 > .col2 > .playlog_score_block')[1].textContent.replace(/[\t\n]+/g, '')
+                let combo = dom.querySelectorAll('.gray_block > .p_5 > .col2 > .playlog_score_block')[0].textContent.replace(/[\t\n]+/g, '').split('/').map(item => parseInt(item))
+                let sync = dom.querySelectorAll('.gray_block > .p_5 > .col2 > .playlog_score_block')[1].textContent.replace(/[\t\n]+/g, '').split('/').map(item => parseInt(item))
 
                 let fastLate = []
                 let fastLateElement = dom.querySelectorAll('.playlog_fl_block > .w_96.f_l.t_r > .p_t_5').forEach(element => fastLate.push(element.textContent.replace(/[\t\n]+/g, '')))
@@ -382,10 +413,10 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let chartType
                     switch (chartTypeIcon) {
                         case 'music_standard':
-                            chartType = 'std';
+                            chartType = ChartType.STD;
                             break;
                         case 'music_dx':
-                            chartType = 'dx';
+                            chartType = ChartType.DX;
                             break;
                         default:
                             chartType = '';
@@ -400,25 +431,25 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let syncType
                     switch (syncTypeIcon) {
                         case 'music_icon_fs':
-                            syncType = 'FS';
+                            syncType = SyncType.FS;
                             break;
                         case 'music_icon_fsp':
-                            syncType = 'FS+';
+                            syncType = SyncType.FSp;
                             break;
                         case 'music_icon_fdx':
-                            syncType = 'FDX';
+                            syncType = SyncType.FDX;
                             break;
                         case 'music_icon_fdxp':
-                            syncType = 'FDX+';
+                            syncType = SyncType.FDXp;
                             break;
                         case 'music_icon_sync':
-                            syncType = 'SYNC';
+                            syncType = SyncType.SYNC;
                             break;
                         case 'music_icon_back':
-                            syncType = 'none';
+                            syncType = SyncType.none;
                             break;
                         default:
-                            syncType = '';
+                            syncType = SyncType.none;
                             break;
                     }
 
@@ -426,22 +457,22 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let comboType
                     switch (comboTypeIcon) {
                         case 'music_icon_fc':
-                            comboType = 'FC';
+                            comboType = ComboType.FC;
                             break;
                         case 'music_icon_fcp':
-                            comboType = 'FC+';
+                            comboType = ComboType.FCp;
                             break;
                         case 'music_icon_ap':
-                            comboType = 'AP';
+                            comboType = ComboType.AP;
                             break;
                         case 'music_icon_app':
-                            comboType = 'AP+';
+                            comboType = ComboType.APp;
                             break;
                         case 'music_icon_back':
-                            comboType = 'none';
+                            comboType = ComboType.none;
                             break;
                         default:
-                            comboType = '';
+                            comboType = ComboType.none;
                             break;
                     }
 
@@ -463,13 +494,13 @@ const ToolURL = 'https://chart.minecraftpeayer.me/update-data';
                     let chartType
                     switch (chartTypeIcon) {
                         case 'music_standard':
-                            chartType = 'std';
+                            chartType = ChartType.STD;
                             break;
                         case 'music_dx':
-                            chartType = 'dx';
+                            chartType = ChartType.DX;
                             break;
                         default:
-                            chartType = '';
+                            chartType = -1;
                             break;
                     }
                     let playCount = playCountRecord.querySelector('.music_score_block').textContent.replace(/[\t\n]+/g, '').split('：')[1]

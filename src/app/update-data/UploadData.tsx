@@ -12,29 +12,79 @@ const mai = localFont({
     display: "swap",
 });
 
+enum TitleType {
+    Normal = 0,
+    Bronze = 1,
+    Silver = 2,
+    Gold = 3,
+    Rainbow = 4,
+}
+
 const TitleBackgroundURL = {
-    Normal: "https://maimaidx-eng.com/maimai-mobile/img/trophy_normal.png",
-    Bronze: "https://maimaidx-eng.com/maimai-mobile/img/trophy_bronze.png",
-    Silver: "https://maimaidx-eng.com/maimai-mobile/img/trophy_silver.png",
-    Gold: "https://maimaidx-eng.com/maimai-mobile/img/trophy_gold.png",
-    Rainbow: "https://maimaidx-eng.com/maimai-mobile/img/trophy_rainbow.png",
+    [TitleType.Normal]:
+        "https://maimaidx-eng.com/maimai-mobile/img/trophy_normal.png",
+    [TitleType.Bronze]:
+        "https://maimaidx-eng.com/maimai-mobile/img/trophy_bronze.png",
+    [TitleType.Silver]:
+        "https://maimaidx-eng.com/maimai-mobile/img/trophy_silver.png",
+    [TitleType.Gold]:
+        "https://maimaidx-eng.com/maimai-mobile/img/trophy_gold.png",
+    [TitleType.Rainbow]:
+        "https://maimaidx-eng.com/maimai-mobile/img/trophy_rainbow.png",
 };
 
-const difficultyColor = {
-    basic: "#45c124",
-    advanced: "#ffba01",
-    expert: "#ff7b7b",
-    master: "#9f51dc",
-    remaster: "#dbaaff",
-    utage: "#ff6ffd",
+enum ChartType {
+    STD = 0,
+    DX = 1,
+}
+
+enum ComboType {
+    None = -1,
+    FC = 0,
+    FCp = 1,
+    AP = 2,
+    APp = 3,
+}
+
+enum SyncType {
+    None = -1,
+    FS = 0,
+    FSp = 1,
+    FDX = 2,
+    FDXp = 3,
+    SYNC = 4,
+}
+
+const ChartTypeDisplayName = {
+    [ChartType.STD]: "STD",
+    [ChartType.DX]: "DX",
+};
+
+enum Difficulty {
+    Basic = 0,
+    Advanced = 1,
+    Expert = 2,
+    Master = 3,
+    ReMaster = 4,
+    UTAGE = 5,
+}
+
+const DifficultyColor = {
+    [Difficulty.Basic]: "#45c124",
+    [Difficulty.Advanced]: "#ffba01",
+    [Difficulty.Expert]: "#ff7b7b",
+    [Difficulty.Master]: "#9f51dc",
+    [Difficulty.ReMaster]: "#dbaaff",
+    [Difficulty.UTAGE]: "#ff6ffd",
 };
 
 const difficulties = {
-    basic: "BASIC",
-    advanced: "ADVANCED",
-    expert: "EXPERT",
-    master: "MASTER",
-    remaster: "Re:MASTER",
+    [Difficulty.Basic]: "BASIC",
+    [Difficulty.Advanced]: "ADVANCED",
+    [Difficulty.Expert]: "EXPERT",
+    [Difficulty.Master]: "MASTER",
+    [Difficulty.ReMaster]: "Re:MASTER",
+    [Difficulty.UTAGE]: "UTAGE",
 };
 
 const textColor = {
@@ -68,7 +118,7 @@ type PlayerData = {
     course: string;
     title: {
         text: string;
-        type: "Normal" | "Bronze" | "Silver" | "Gold" | "Rainbow";
+        type: TitleType;
     };
     avatar: string;
     playCount: {
@@ -103,34 +153,34 @@ type PlayerData = {
 type SimpleScoreData = {
     track: number;
     time: Date;
-    difficulty: "basic" | "advanced" | "expert" | "master" | "remaster";
+    difficulty: Difficulty;
     level: string;
-    chartType: string;
+    chartType: ChartType;
     songName: string;
-    achievement: string;
+    achievement: number;
     achievementNewRecord: boolean;
-    dxScore: string;
+    dxScore: number[];
     dxScoreNewRecord: boolean;
     dxStar: number;
-    fcType: string;
-    syncType: string;
+    fcType: ComboType;
+    syncType: SyncType;
     idx: string;
 };
 
 type DetailedScoreData = {
     track: number;
     time: Date;
-    difficulty: "basic" | "advanced" | "expert" | "master" | "remaster";
+    difficulty: Difficulty;
     level: string;
-    chartType: string;
+    chartType: ChartType;
     songName: string;
-    achievement: string;
+    achievement: number;
     achievementNewRecord: boolean;
-    dxScore: string;
+    dxScore: number[];
     dxScoreNewRecord: boolean;
     dxStar: number;
-    fcType: string;
-    syncType: string;
+    fcType: ComboType;
+    syncType: SyncType;
     idx: string;
     noteDetail: {
         tap: string[];
@@ -140,23 +190,23 @@ type DetailedScoreData = {
         break: string[];
     };
     fastLate: {
-        fast: string;
-        late: string;
+        fast: number;
+        late: number;
     };
     combo: number[];
     sync: number[];
 };
 
 type AllScoreData = {
-    achievement: string;
-    chartType: string;
-    comboType: string;
-    difficulty: string;
-    dxScore: string;
+    achievement: number;
+    chartType: ChartType;
+    comboType: ComboType;
+    difficulty: Difficulty;
+    dxScore: number[];
     level: string;
     name: string;
     playCount: string;
-    syncType: string;
+    syncType: SyncType;
 };
 
 function getRatingColor(rating: number): string {
@@ -202,6 +252,7 @@ const UploadDataClientPage = () => {
         window.opener.postMessage("request_allScores__basic", "*");
         window.addEventListener("message", async (event) => {
             if (!event.data) return;
+
             if (event.data.type === "playerData") {
                 setPlayerData(event.data.data);
             }
@@ -358,7 +409,8 @@ const UploadDataClientPage = () => {
                                 <Image
                                     src={
                                         TitleBackgroundURL[
-                                            playerData?.title.type || "Normal"
+                                            playerData?.title.type ||
+                                                TitleType.Normal
                                         ]
                                     }
                                     alt=""
@@ -621,7 +673,7 @@ const UploadDataClientPage = () => {
                                 className={`p-2 text-center [text-shadow:_-1px_-1px_0_#000,_1px_-1px_0_#000,_-1px_1px_0_#000,_1px_1px_0_#000] [webkit-text-stroke:_0.5px_#000]`}
                                 style={{
                                     backgroundColor:
-                                        difficultyColor[score.difficulty],
+                                        DifficultyColor[score.difficulty],
                                     borderBottom:
                                         score.track === 1
                                             ? "2px solid #101828"
@@ -638,10 +690,12 @@ const UploadDataClientPage = () => {
                                 </td>
                                 <td className="px-1">{score.level}</td>
                                 <td className="px-1">
-                                    {score.chartType.toUpperCase()}
+                                    {ChartTypeDisplayName[score.chartType]}
                                 </td>
                                 <td className="px-1">{score.songName}</td>
-                                <td className="px-1">{score.achievement}</td>
+                                <td className="px-1">
+                                    {score.achievement.toFixed(4)}%
+                                </td>
                             </tr>
                         ))}
                     </tbody>
@@ -652,7 +706,7 @@ const UploadDataClientPage = () => {
                         <div
                             style={{
                                 backgroundColor:
-                                    difficultyColor[detail.difficulty],
+                                    DifficultyColor[detail.difficulty],
                             }}
                             className="p-2 rounded-lg mb-2 relative"
                             key={detail.track}
@@ -660,7 +714,7 @@ const UploadDataClientPage = () => {
                             <div className="absolute top-2 right-2">
                                 <p className="text-2xl">{detail.level}</p>
                                 <p className="text-sm text-right">
-                                    {detail.chartType.toUpperCase()}
+                                    {ChartTypeDisplayName[detail.chartType]}
                                 </p>
                             </div>
                             <p className="text-gray-300 text-[8px] [text-shadow:none] [webkit-text-stroke:none]">
@@ -670,10 +724,20 @@ const UploadDataClientPage = () => {
                             {detail.songName}
                             <div className="flex align-text-bottom">
                                 <p className="text-2xl">
-                                    {detail.achievement.split(".")[0]}
+                                    {
+                                        detail.achievement
+                                            .toFixed(4)
+                                            .split(".")[0]
+                                    }
                                 </p>
                                 <p className="self-end">
-                                    .{detail.achievement.split(".")[1]}
+                                    .
+                                    {
+                                        detail.achievement
+                                            .toFixed(4)
+                                            .split(".")[1]
+                                    }
+                                    %
                                 </p>
                                 {detail.achievementNewRecord ? (
                                     <p className="ml-2 text-[12px] align-middle">
@@ -684,7 +748,7 @@ const UploadDataClientPage = () => {
                                 )}
                             </div>
                             <div className="text-sm mt-1 flex">
-                                ✦{detail.dxStar} {detail.dxScore}
+                                ✦{detail.dxStar} {detail.dxScore.join("/")}
                                 {detail.dxScoreNewRecord ? (
                                     <p className="ml-2 text-[12px] align-middle">
                                         (New Record)

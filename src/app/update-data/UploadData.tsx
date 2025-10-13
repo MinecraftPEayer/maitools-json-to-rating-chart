@@ -829,7 +829,12 @@ const UploadDataClientPage = () => {
                                 );
                             })()}
                             <div>Combo: {detail.combo.join("/")}</div>
-                            <div>Sync: {detail.sync.join("/")}</div>
+                            <div>
+                                Sync:{" "}
+                                {detail.sync[0] === -1
+                                    ? "―"
+                                    : detail.sync.join("/")}
+                            </div>
                             <div className="absolute right-2 bottom-2 text-xl">
                                 <div className="flex text-sm absolute right-0 -top-4">
                                     <p className="text-blue-500">FAST</p>

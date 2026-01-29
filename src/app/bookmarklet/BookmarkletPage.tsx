@@ -30,7 +30,9 @@ const BookmarkletPage = () => {
                     replace the URL. (You can change the name if you want.)
                 </li>
                 <li>
-                    <strong>Paste the script:</strong>
+                    <strong>
+                        Paste the script and add "javascript:" at the beginning:
+                    </strong>
                     <div className="mt-2 flex flex-col sm:flex-row sm:items-center sm:space-x-3">
                         <input
                             readOnly
@@ -51,6 +53,14 @@ const BookmarkletPage = () => {
                             "Click the box to copy, then paste into the bookmark's URL/location field and save."
                         )}
                     </p>
+                    <div className="mt-3 p-3 rounded bg-yellow-400 text-black text-sm font-medium">
+                        <strong className="mr-2">Important:</strong>
+                        Make sure the bookmark URL begins with{" "}
+                        <code className="font-mono">javascript:</code>. Example:{" "}
+                        <span className="font-mono ml-2">
+                            {"javascript:(function(...){...})()"}
+                        </span>
+                    </div>
                 </li>
                 <li>
                     <strong>Complete!</strong>
